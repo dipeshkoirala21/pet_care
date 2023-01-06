@@ -12,13 +12,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// FirebaseAuthMiddleware structure
+// FirebaseAuthMiddleware 
 type FirebaseAuthMiddleware struct {
 	service     services.FirebaseService
 	userservice services.UserService
 }
 
-// NewFirebaseAuthMiddleware creates new firebase authentication
+// NewFirebaseAuthMiddleware creates new firebase auth
 func NewFirebaseAuthMiddleware(
 	service services.FirebaseService,
 	userservice services.UserService,
