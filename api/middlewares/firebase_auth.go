@@ -51,7 +51,7 @@ func (m FirebaseAuthMiddleware) Handle() gin.HandlerFunc {
 	}
 }
 
-// HandleAdminOnly handles middleware for admin role only
+// HandleAdminOnly handles middleware for admin role 
 func (m FirebaseAuthMiddleware) HandleAdminOnly() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := m.getTokenFromHeader(c)
