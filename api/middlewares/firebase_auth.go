@@ -83,7 +83,6 @@ func (m FirebaseAuthMiddleware) HandleAdminOnly() gin.HandlerFunc {
 func (m FirebaseAuthMiddleware) getTokenFromHeader(c *gin.Context) (*auth.Token, error) {
 	header := c.GetHeader("Authorization")
 	idToken := strings.TrimSpace(strings.Replace(header, "Bearer", "", 1))
-
 	token, err := m.service.VerifyToken(idToken)
 	if err != nil {
 		return nil, err
@@ -100,9 +99,7 @@ func (M FirebaseAuthMiddleware) isAdmin(claims map[string]interface{}) bool {
 	if role != nil {
 		isAdmin = role.(string) == "admin"
 	}
-
 	return isAdmin
-
 }
 
 
