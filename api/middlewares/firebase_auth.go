@@ -67,14 +67,11 @@ func (m FirebaseAuthMiddleware) HandleAdminOnly() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		sentry.ConfigureScope(func(scope *sentry.Scope) {
 			scope.SetUser(sentry.User{ID: token.UID})
 		})
-
 		c.Set(constants.Claims, token.Claims)
 		c.Set(constants.UID, token.UID)
-
 		c.Next()
 	}
 }
