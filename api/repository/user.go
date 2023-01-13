@@ -1,9 +1,11 @@
 package repository
 
 import (
+	"boilerplate-api/errors"
 	"boilerplate-api/infrastructure"
 	"boilerplate-api/models"
 	"boilerplate-api/utils"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -33,8 +35,19 @@ func (c UserRepository) WithTrx(trxHandle *gorm.DB) UserRepository {
 }
 
 // Save -> User
-func (c UserRepository) Create(User models.User) error {
-	return c.db.DB.Create(&User).Error
+func (c UserRepository) Create(User models.User) (*models.User, error) {
+	if err := c.db.DB.Create(&User).Error; err != nil {
+		if strings.Contains(err.Error(), "1062") {
+			err = errors.BadRequest.Wrap(err, "Error creating user")
+			custom_msg := ""
+			if strings.Contains(err.Error(), "UQ_users_email") {
+				custom_msg = "User already signed up, please proceed to login"
+			}
+			err = errors.SetCustomMessage(err, custom_msg)
+		}
+		return nil, err
+	}
+	return &User, nil
 }
 
 // GetAllUser -> Get All users
