@@ -45,8 +45,9 @@ func (cc UserController) CreateUser(c *gin.Context) {
 		responses.HandleError(c, err)
 		return
 	}
+	_, err := cc.userService.WithTrx(trx).CreateUser(user)
 
-	if err := cc.userService.WithTrx(trx).CreateUser(user); err != nil {
+	if err != nil {
 		cc.logger.Zap.Error("Error [CreateUser] [db CreateUser]: ", err.Error())
 		err := errors.InternalError.Wrap(err, "Failed to create user")
 		responses.HandleError(c, err)

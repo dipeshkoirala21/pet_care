@@ -69,3 +69,10 @@ func (c UserRepository) GetAllUsers(pagination utils.Pagination) ([]models.User,
 		Count(&totalRows).Error
 	return users, totalRows, err
 }
+
+// GetOneUser -> Get One User By Id
+func (c UserRepository) GetOneUser(ID models.BINARY16) (models.User, error) {
+	User := models.User{}
+	return User, c.db.DB.
+		Where("id = ?", ID).First(&User).Error
+}
